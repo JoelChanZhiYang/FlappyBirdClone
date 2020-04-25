@@ -116,18 +116,14 @@ function collision(bird, wall){
         closest_x = wall.x + wall.thickness;
     }
 
-    if (closest_y < 0){
-        closest_y = 0
-    } else if (closest_y > (HEIGHT / 2) - wall.variance - wall.gap / 2){
+    if (closest_y > (HEIGHT / 2) - wall.variance - wall.gap / 2){
         closest_y = (HEIGHT / 2) - wall.variance - wall.gap / 2;
     }
 
     let distance = Math.pow(bird.x - closest_x, 2) + Math.pow(bird.y - closest_y, 2);
     if (distance > Math.pow((bird.radius / 2), 2)){
         closest_y = bird.y;
-        if (closest_y > HEIGHT){
-            closest_y = HEIGHT;
-        } else if (closest_y < (HEIGHT / 2) - wall.variance + wall.gap / 2){
+    if (closest_y < (HEIGHT / 2) - wall.variance + wall.gap / 2){
             closest_y = (HEIGHT / 2) - wall.variance + wall.gap / 2;
         }
 

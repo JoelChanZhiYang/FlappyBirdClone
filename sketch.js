@@ -5,6 +5,7 @@ let wallList = [];
 let gameOver = false
 let gameStart = false;
 let score = 0;
+let birdImage;
 
 function setup(){
     createCanvas(WIDTH,HEIGHT);
@@ -15,26 +16,9 @@ function setup(){
 function draw(){
     background(0,0,0);
     
-    bird.update();
-    bird.display();
+    drawBird()
     drawWall();
-    fill(255,0,0)
-    textSize(32)
-    text(score, WIDTH / 2, 30);
-    fill(255,255,255)
-}
-
-
-function drawWall(){
-    for (let wall of wallList){
-        if (!gameOver && wall.update()){
-            wallList.pop();
-        }  
-        wall.display();
-        if(collision(bird, wall)) {
-            gameOver = true;
-        }
-    }
+    drawText();
 }
 
 function keyPressed(){
@@ -53,6 +37,35 @@ function keyPressed(){
     }
 }
 
+function loadImages(){
+    birdImage = loadImage("./bird.png");
+}
+
+function drawBird(){
+    bird.update();
+    bird.draw();
+}
+
+
+function drawText(){
+    fill(255,0,0)
+    textSize(32)
+    text(score, WIDTH / 2, 30);
+    fill(255,255,255)
+}
+
+function drawWall(){
+    for (let wall of wallList){
+        if (!gameOver && wall.update()){
+            wallList.pop();
+        }  
+        wall.draw();
+        if(collision(bird, wall)) {
+            gameOver = true;
+        }
+    }
+}
+
 class Wall{
     constructor(){
         this.variance = (random() - 0.5) * 300 ;
@@ -64,7 +77,7 @@ class Wall{
         this.pointGiven = false;
     }
 
-    display(){
+    draw(){
         rectMode(CORNERS);
         rect(this.x, 0, this.x + this.thickness, (HEIGHT / 2) - this.variance - this.gap / 2);
         rect(this.x, HEIGHT, this.x + this.thickness, (HEIGHT / 2) - this.variance + this.gap /2);
@@ -82,7 +95,6 @@ class Wall{
             }
         }
     }
-
 }
  
 class Bird{
@@ -103,7 +115,7 @@ class Bird{
         }
     }
 
-    display(){
+    draw(){
         ellipse(this.x, this.y, this.radius, this.radius);
     }
 }

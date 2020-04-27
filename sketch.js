@@ -17,7 +17,15 @@ function draw(){
     
     bird.update();
     bird.display();
+    drawWall();
+    fill(255,0,0)
+    textSize(32)
+    text(score, WIDTH / 2, 30);
+    fill(255,255,255)
+}
 
+
+function drawWall(){
     for (let wall of wallList){
         if (!gameOver && wall.update()){
             wallList.pop();
@@ -27,12 +35,7 @@ function draw(){
             gameOver = true;
         }
     }
-    fill(255,0,0)
-    textSize(32)
-    text(score, WIDTH / 2, 30);
-    fill(255,255,255)
 }
-
 
 function keyPressed(){
     if (!gameOver){

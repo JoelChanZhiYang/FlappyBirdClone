@@ -52,7 +52,7 @@ function keyPressed(){
 
 class Wall{
     constructor(){
-        this.variance = (random() - 0.5) * 200 ;
+        this.variance = (random() - 0.5) * 300 ;
         this.thickness = 80;
         this.dx = 10;
         this.x = WIDTH;

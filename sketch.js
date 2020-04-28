@@ -9,20 +9,25 @@ let birdImage;
 let clock;
 let bottomWallImage;
 let topWallImage;
+let backgroundImage;
+let ground;
+let scoreFont;
 
 function setup(){
     createCanvas(WIDTH,HEIGHT);
     bird = new Bird();
     wallList = [];
     loadImages();
+    ground = new Ground();
 }
 
 function draw(){
-    background(25,25,25);
+    background(backgroundImage);
     
     drawBird()
     drawWall();
     drawText();
+    drawGround();
 }
 
 function keyPressed(){
@@ -36,6 +41,13 @@ function keyPressed(){
     }
 }
 
+function drawGround(){
+    if (!gameOver){
+        ground.update();
+    }
+    ground.draw();
+}
+
 function startGame(){
     gameStart = true;
     clock = setInterval(() => {
@@ -44,11 +56,13 @@ function startGame(){
     }, 1500);
 }
 
-
 function loadImages(){
     birdImage = loadImage("./assets/bird2.png")
     bottomWallImage = loadImage("./assets/bottomWall.png")
     topWallImage = loadImage("./assets/topWall.png")
+    backgroundImage = loadImage("./assets/background1.png")
+    groundImage = loadImage("./assets/ground.png")
+    scoreFont = loadFont("./assets/fonts/BACKTO1982.TTF")
 }
 
 function drawBird(){
@@ -57,10 +71,15 @@ function drawBird(){
 }
 
 function drawText(){
-    fill(255,0,0)
-    textSize(32)
-    text(score, WIDTH / 2, 30);
+    push();
     fill(255,255,255)
+    stroke(0,0,0)
+    strokeWeight(5)
+    textSize(40)
+    textFont(scoreFont);
+    textAlign(CENTER, CENTER)
+    text(score, WIDTH / 2, 60);
+    pop();
 }
 
 function drawWall(){
@@ -87,14 +106,15 @@ class Wall{
         this.gap = 180 ;
         this.velocity = -2.2;
         this.pointGiven = false;
+        this.center = 522 / 2 
     }
 
     draw(){
         rectMode(CORNERS);
-        // rect(this.x, 0, this.x + this.thickness, (HEIGHT / 2) - this.variance - this.gap / 2);
-        // rect(this.x, HEIGHT, this.x + this.thickness, (HEIGHT / 2) - this.variance + this.gap /2);
-        image(bottomWallImage, this.x, (HEIGHT / 2) - this.variance + this.gap /2, this.thickness, 455)
-        image(topWallImage, this.x, (HEIGHT / 2) - this.variance - this.gap / 2 - 455, this.thickness, 455)
+        // rect(this.x, 0, this.x + this.thickness, this.center - this.variance - this.gap / 2);
+        // rect(this.x, HEIGHT, this.x + this.thickness, this.center - this.variance + this.gap /2);
+        image(bottomWallImage, this.x, this.center - this.variance + this.gap /2, this.thickness, 455)
+        image(topWallImage, this.x, this.center - this.variance - this.gap / 2 - 455, this.thickness, 455)
 
     }
 
@@ -127,15 +147,15 @@ class Wall{
             closest_x = this.x + this.thickness;
         }
     
-        if (closest_y > (HEIGHT / 2) - this.variance - this.gap / 2){
-            closest_y = (HEIGHT / 2) - this.variance - this.gap / 2;
+        if (closest_y > this.center - this.variance - this.gap / 2){
+            closest_y = this.center - this.variance - this.gap / 2;
         }
     
         let distance = Math.pow(bird.x - closest_x, 2) + Math.pow(bird.y - closest_y, 2);
         if (distance > Math.pow((bird.radius / 2), 2)){
             closest_y = bird.y;
-        if (closest_y < (HEIGHT / 2) - this.variance + this.gap / 2){
-                closest_y = (HEIGHT / 2) - this.variance + this.gap / 2;
+        if (closest_y < this.center - this.variance + this.gap / 2){
+                closest_y = this.center - this.variance + this.gap / 2;
             }
     
             let distance = Math.pow(bird.x - closest_x, 2) + Math.pow(bird.y - closest_y, 2);
@@ -154,15 +174,17 @@ class Bird{
         this.radius = 45  ;
         this.dy = 0;
         this.acceleration = 0 ;
+        this.bottomLimit = 522
     }
 
     update(){
         this.y += this.dy;
         this.dy += this.acceleration;
-        if (this.y > HEIGHT - this.radius / 2){
+        if (this.y > this.bottomLimit - this.radius / 2){
             this.dy = 0;
-            this.y = HEIGHT - this.radius / 2;
+            this.y = this.bottomLimit - this.radius / 2;
         }
+
     }
 
     draw(){
@@ -173,5 +195,31 @@ class Bird{
     jump(){
         this.dy  = -10 ;
         this.acceleration = 0.6
+    }
+}
+
+class Ground{
+    constructor(){
+        this.groundList = [];
+        this.x1 = 0;
+        this.y = 522;
+        this.dx = -2.2;
+        this.x2 = WIDTH-43;
+    }
+
+    update(){
+        this.x1 += this.dx;
+        this.x2 += this.dx;
+        if (this.x2 <= 0 && this.x1 <= this.x2){
+            this.x1 = WIDTH - 43
+            console.log("hi")
+        } else if (this.x1 <= 0 && this.x2 <= this.x1){
+            this.x2 = WIDTH-43
+        }
+    }
+
+    draw(){
+        image(groundImage, this.x1, this.y)
+        image(groundImage, this.x2, this.y)
     }
 }

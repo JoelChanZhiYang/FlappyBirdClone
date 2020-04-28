@@ -11,6 +11,7 @@ function setup(){
     createCanvas(WIDTH,HEIGHT);
     bird = new Bird();
     wallList = [];
+    loadImages();
 }
 
 function draw(){
@@ -38,7 +39,7 @@ function keyPressed(){
 }
 
 function loadImages(){
-    birdImage = loadImage("./bird.png");
+    birdImage = loadImage("./bird2.png")
 }
 
 function drawBird(){
@@ -65,6 +66,8 @@ function drawWall(){
         }
     }
 }
+
+
 
 class Wall{
     constructor(){
@@ -95,6 +98,7 @@ class Wall{
             }
         }
     }
+
 }
  
 class Bird{
@@ -116,7 +120,8 @@ class Bird{
     }
 
     draw(){
-        ellipse(this.x, this.y, this.radius, this.radius);
+        // ellipse(this.x, this.y, this.radius, this.radius);
+        image(birdImage, this.x - this.radius / 2, this.y- this.radius / 2, this.radius, this.radius)
     }
 }
 

@@ -10,10 +10,11 @@ Flappy Bird Clone is a browser game written in Javascript using the p5.js librar
 
 Flappy Bird was originally a popular mobile phone game developed by game development company dotGears. Due to a myriad of reasons, Flappy Bird was removed from the App Store and the Google Play Store. However, due to its huge popularity, many similar games have been developed in its absence. 
 
-<<<<<<< HEAD
 ## The Goal
 
 My version aims to copy as many features from the original Flappy Bird as possible. 
+
+
 ![GIF of my version being played](./assets/README_assets/demonstration_gif.gif)
 
 ## Features

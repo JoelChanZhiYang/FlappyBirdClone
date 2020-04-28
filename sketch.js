@@ -40,6 +40,15 @@ function keyPressed(){
     if (!gameStart && keyCode ==32){
         startGame();
     }
+    if (gameOver){
+        reset.resetGame();
+    }
+}
+
+function mouseReleased(){
+    if (reset.resetButtonCheck(mouseX, mouseY)){
+        reset.resetGame();
+    }
 }
 
 function drawGround(){
@@ -58,12 +67,14 @@ function startGame(){
 }
 
 function loadImages(){
+    scoreFont = loadFont("./assets/fonts/BACKTO1982.TTF")
     birdImage = loadImage("./assets/bird2.png")
     bottomWallImage = loadImage("./assets/bottomWall.png")
     topWallImage = loadImage("./assets/topWall.png")
     backgroundImage = loadImage("./assets/background1.png")
-    groundImage = loadImage("./assets/ground.png")
-    scoreFont = loadFont("./assets/fonts/BACKTO1982.TTF")
+    groundImage = loadImage("./assets/ground.png") 
+    scoreboardImage = loadImage("./assets/scoreboard.png")
+    resetButton = loadImage("./assets/resetButton.png")
 }
 
 function drawBird(){
@@ -90,12 +101,17 @@ function drawWall(){
         }
         wall.draw();
         if(wall.collision()) {
-            gameOver = true;
+            endGame();
         }
     }
     if (gameOver){
         clearInterval(clock);
     }
+}
+
+function endGame(){
+    gameOver = true
+    reset.updateHighscore();
 }
 
 class Wall{
@@ -195,7 +211,7 @@ class Bird{
     }
 
     jump(){
-        this.dy  = -10 ;
+        this.dy  = -9 ;
         this.acceleration = 0.6
     }
 }
@@ -227,12 +243,28 @@ class Ground{
 
 class Reset{
     constructor(){
-        this.highscore = getItem("highscore") ? 0 : getItem("highscore");
+        if (getItem("highscore")){
+            this.highscore = getItem("highscore");
+        } else {
+            this.highscore = 0;
+        }
+            
     }
 
     draw(){
         if (gameOver){
-            rect(WIDTH /2 , HEIGHT /2, 200,200)
+            push(); 
+            image(scoreboardImage, WIDTH/2 - 70, HEIGHT /2 - 160)
+            fill(255,255,255)
+            stroke(0,0,0)
+            strokeWeight(5)
+            textSize(22)
+            textFont(scoreFont);
+            textAlign(CENTER, CENTER)
+            text(score, WIDTH / 2, HEIGHT /2 - 160 + 81);
+            text(this.highscore, WIDTH / 2, HEIGHT /2 - 160 + 150);
+            pop();
+            image(resetButton, WIDTH/2 - 70, HEIGHT /2 + 100)
         } else{
             drawText()
         }
@@ -251,5 +283,9 @@ class Reset{
             storeItem("highscore", score)
             this.highscore = score
         }
+    }
+
+    resetButtonCheck(x, y){
+        return x <= WIDTH /2 +70 && x >= WIDTH / 2 -70 && y >= HEIGHT /2 + 100 && y <= HEIGHT / 2 +100 + 50 && gameOver; 
     }
 }

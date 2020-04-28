@@ -1,12 +1,14 @@
 let bird;
 let HEIGHT = 650;
-let WIDTH = 500  ;
+let WIDTH = 500;
 let wallList = [];
 let gameOver = false
 let gameStart = false;
 let score = 0;
 let birdImage;
 let clock;
+let bottomWallImage;
+let topWallImage;
 
 function setup(){
     createCanvas(WIDTH,HEIGHT);
@@ -44,7 +46,9 @@ function startGame(){
 
 
 function loadImages(){
-    birdImage = loadImage("./bird2.png")
+    birdImage = loadImage("./assets/bird2.png")
+    bottomWallImage = loadImage("./assets/bottomWall.png")
+    topWallImage = loadImage("./assets/topWall.png")
 }
 
 function drawBird(){
@@ -87,8 +91,11 @@ class Wall{
 
     draw(){
         rectMode(CORNERS);
-        rect(this.x, 0, this.x + this.thickness, (HEIGHT / 2) - this.variance - this.gap / 2);
-        rect(this.x, HEIGHT, this.x + this.thickness, (HEIGHT / 2) - this.variance + this.gap /2);
+        // rect(this.x, 0, this.x + this.thickness, (HEIGHT / 2) - this.variance - this.gap / 2);
+        // rect(this.x, HEIGHT, this.x + this.thickness, (HEIGHT / 2) - this.variance + this.gap /2);
+        image(bottomWallImage, this.x, (HEIGHT / 2) - this.variance + this.gap /2, this.thickness, 455)
+        image(topWallImage, this.x, (HEIGHT / 2) - this.variance - this.gap / 2 - 455, this.thickness, 455)
+
     }
 
     update(){

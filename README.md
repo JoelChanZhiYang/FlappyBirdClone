@@ -1,7 +1,7 @@
 # Flappy Bird Clone
 
 ## Summary
-Flappy Bird Clone is a browser game written in Javascript using the p5.js library for the graphical and interactive features.
+Flappy Bird Clone is a browser game written in Javascript using the p5.js library.
 
 [Click here to try it out!](https://joelchanzhiyang.github.io/FlappyBirdClone/)
 

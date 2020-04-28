@@ -2,9 +2,9 @@ let bird;
 let HEIGHT = 650;
 let WIDTH = 500;
 let wallList = [];
-let gameOver = false
-let gameStart = false;
-let score = 0;
+let gameOver;
+let gameStart;
+let score;
 let birdImage;
 let clock;
 let bottomWallImage;
@@ -12,11 +12,12 @@ let topWallImage;
 let backgroundImage;
 let ground;
 let scoreFont;
+let reset;
 
 function setup(){
     createCanvas(WIDTH,HEIGHT);
-    bird = new Bird();
-    wallList = [];
+    reset = new Reset();
+    reset.resetGame();
     loadImages();
     ground = new Ground();
 }
@@ -26,8 +27,8 @@ function draw(){
     
     drawBird()
     drawWall();
-    drawText();
     drawGround();
+    reset.draw();
 }
 
 function keyPressed(){
@@ -110,12 +111,13 @@ class Wall{
     }
 
     draw(){
+        push();
         rectMode(CORNERS);
         // rect(this.x, 0, this.x + this.thickness, this.center - this.variance - this.gap / 2);
         // rect(this.x, HEIGHT, this.x + this.thickness, this.center - this.variance + this.gap /2);
         image(bottomWallImage, this.x, this.center - this.variance + this.gap /2, this.thickness, 455)
         image(topWallImage, this.x, this.center - this.variance - this.gap / 2 - 455, this.thickness, 455)
-
+        pop();
     }
 
     update(){
@@ -212,7 +214,6 @@ class Ground{
         this.x2 += this.dx;
         if (this.x2 <= 0 && this.x1 <= this.x2){
             this.x1 = WIDTH - 43
-            console.log("hi")
         } else if (this.x1 <= 0 && this.x2 <= this.x1){
             this.x2 = WIDTH-43
         }
@@ -221,5 +222,34 @@ class Ground{
     draw(){
         image(groundImage, this.x1, this.y)
         image(groundImage, this.x2, this.y)
+    }
+}
+
+class Reset{
+    constructor(){
+        this.highscore = getItem("highscore") ? 0 : getItem("highscore");
+    }
+
+    draw(){
+        if (gameOver){
+            rect(WIDTH /2 , HEIGHT /2, 200,200)
+        } else{
+            drawText()
+        }
+    }
+
+    resetGame(){
+        bird = new Bird();
+        wallList = [];
+        gameStart = false;
+        gameOver = false;
+        score = 0;
+    }
+
+    updateHighscore(){
+        if (score > this.highscore){
+            storeItem("highscore", score)
+            this.highscore = score
+        }
     }
 }

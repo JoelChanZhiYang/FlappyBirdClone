@@ -45,10 +45,16 @@ Highscores are stored in local storage of the browser allowing the game to retri
 * [JavaScript](https://www.javascript.com/)
 * [p5.js Library](https://p5js.org/)
 
+## Contributing
+If you have found any bugs or have a feature to suggest, I can be contacted at joelchanzhiyang@gmail.com.
+
 ## Authors and Acknowledgements
 
 All code was written by me. 
 
-The pipes and the bird were designed by me, but heavily influenced by the original flappy bird game. 
+The pipes and the bird were designed by me, but heavily influenced by the original Flappy Bird game. 
 
 The background was found [here](https://www.pinterest.com/pin/303430093618641114/) and was not designed by me.
+
+Font is call "Back to 1982" and it can be found [here](https://www.dafont.com/back-to-1982.font).
+

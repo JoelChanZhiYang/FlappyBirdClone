@@ -201,6 +201,7 @@ class Bird{
         if (this.y > this.bottomLimit - this.radius / 2){
             this.dy = 0;
             this.y = this.bottomLimit - this.radius / 2;
+            endGame();
         }
 
     }

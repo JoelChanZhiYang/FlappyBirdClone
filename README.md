@@ -12,7 +12,7 @@ Flappy Bird was originally a popular mobile phone game developed by game develop
 
 ## The Goal
 
-My version aims to copy as many features from the original Flappy Bird as possible. 
+This project aims to copy as many features from the original Flappy Bird as possible. 
 
 
 ![GIF of my version being played](./assets/README_assets/demonstration_gif.gif)
